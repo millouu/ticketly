@@ -66,9 +66,9 @@ const TicketForm = () => {
           id='category'
           value={formData.category}
           onChange={handleChange}>
-          <option value='hardware'>Hardware Problem</option>
-          <option value='software'>Software Problem</option>
-          <option value='network'>Network Problem</option>
+          <option value='Hardware Problem'>Hardware Problem</option>
+          <option value='Software Problem'>Software Problem</option>
+          <option value='Network'>Network Problem</option>
         </select>
         <label htmlFor=''>Priority</label>
         <div>
