@@ -131,9 +131,9 @@ const TicketForm = () => {
 
         <label htmlFor=''>Status</label>
         <select name='status' id='status'>
-          <option value='not started'>Not Started</option>
-          <option value='in progress'>In Progress</option>
-          <option value='completed'>Completed</option>
+          <option value='Not Started'>Not Started</option>
+          <option value='In Progress'>In Progress</option>
+          <option value='Completed'>Completed</option>
         </select>
         <input type='submit' className='btn' value='Create Ticket' />
       </form>
