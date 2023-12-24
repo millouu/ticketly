@@ -58,8 +58,8 @@ const TicketForm = ({ ticket }) => {
     if (!res.ok) {
       throw new Error("Failed to create ticket");
     }}
-    router.refresh();
     router.push("/");
+    router.refresh();
   };
 
   return (
@@ -158,9 +158,9 @@ const TicketForm = ({ ticket }) => {
 
         <label htmlFor=''>Status</label>
         <select name='status' id='status' onChange={handleChange}>
-          <option value='Not Started' >Not Started</option>
-          <option value='In Progress'>In Progress</option>
-          <option value='Completed'>Completed</option>
+          <option value='Not Started' selected={formData.progress === 'not started'}>Not Started</option>
+          <option value='In Progress' selected={formData.progress === 'in progress'}>In Progress</option>
+          <option value='Completed' selected={formData.priority==='completed'}>Completed</option>
         </select>
         <input type='submit' className='btn' value={`${EDITMODE?"Update Ticket":"Create Ticket"}`} />
       </form>
