@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 const TicketForm = ({ ticket }) => {
   const router = useRouter();
-  const EDITMODE=ticket._id === "new" ? false : true;
+  const EDITMODE = ticket._id === "new" ? false : true;
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -13,13 +13,12 @@ const TicketForm = ({ ticket }) => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-
   const startingTicketData = {
     title: "",
     description: "",
     priority: 1,
     progress: 0,
-    status: "not started",
+    status: "Not Started",
     category: "Hardware Problem",
   };
 
@@ -27,37 +26,36 @@ const TicketForm = ({ ticket }) => {
     startingTicketData.title = ticket.title;
     startingTicketData.description = ticket.description;
     startingTicketData.priority = ticket.priority;
-    startingTicketData.progress = ticket.progress;
+    startingTicketData.progress = ticket.progess;
     startingTicketData.status = ticket.status;
     startingTicketData.category = ticket.category;
-   }
+  }
 
   const [formData, setFormData] = useState(startingTicketData);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (EDITMODE) {
       const res = await fetch(`/api/Tickets/${ticket._id}`, {
         method: "PUT",
         body: JSON.stringify({ formData }),
         "content-type": "application/json",
       });
-  
+
       if (!res.ok) {
         throw new Error("Failed to create ticket");
       }
-      
-     }else
+    } else {
+      const res = await fetch("/api/Tickets", {
+        method: "POST",
+        body: JSON.stringify({ formData }),
+        "content-type": "application/json",
+      });
 
-    {const res = await fetch("/api/Tickets", {
-      method: "POST",
-      body: JSON.stringify({ formData }),
-      "content-type": "application/json",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to create ticket");
-    }}
+      if (!res.ok) {
+        throw new Error("Failed to create ticket");
+      }
+    }
     router.push("/");
     router.refresh();
   };
@@ -68,7 +66,7 @@ const TicketForm = ({ ticket }) => {
         className='flex flex-col gap-1 w-1/2'
         method='post'
         onSubmit={handleSubmit}>
-        <h3>{EDITMODE?"Update Your Ticket":"Create your Ticket"}</h3>
+        <h3>{EDITMODE ? "Update Your Ticket" : "Create your Ticket"}</h3>
         <label htmlFor=''>Title</label>
         <input
           type='text'
@@ -145,7 +143,7 @@ const TicketForm = ({ ticket }) => {
           />
           <label htmlFor=''>5</label>
         </div>
-        <label htmlFor=''>Progress</label>
+        {/* <label htmlFor=''>Progress</label>
         <input
           type='range'
           id='progress'
@@ -154,15 +152,24 @@ const TicketForm = ({ ticket }) => {
           min='0'
           max='100'
           onChange={handleChange}
-        />
+        /> */}
 
         <label htmlFor=''>Status</label>
-        <select name='status' id='status' onChange={handleChange}>
-          <option value='Not Started' selected={formData.progress === 'not started'}>Not Started</option>
-          <option value='In Progress' selected={formData.progress === 'in progress'}>In Progress</option>
-          <option value='Completed' selected={formData.priority==='completed'}>Completed</option>
+        <select
+          name='status'
+          id='status'
+          value={formData.status}
+          onChange={handleChange}>
+          <option value='Not Started'>Not Started</option>
+          <option value='In Progress'>In Progress</option>
+          <option value='Completed'>Completed</option>
         </select>
-        <input type='submit' className='btn' value={`${EDITMODE?"Update Ticket":"Create Ticket"}`} />
+
+        <input
+          type='submit'
+          className='btn'
+          value={`${EDITMODE ? "Update Ticket" : "Create Ticket"}`}
+        />
       </form>
     </div>
   );
